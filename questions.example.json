@@ -1,0 +1,17 @@
+[
+  {
+    "externalId": "editorial-unique-id",
+    "question": "Which Nigerian artist or moment is being tested?",
+    "year": 2020,
+    "category": "Music",
+    "subcategory": "Artists",
+    "difficulty": "MEDIUM",
+    "questionType": "MULTIPLE_CHOICE",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correctAnswer": "Option A",
+    "explanation": "Explain why Option A is correct.",
+    "source": "https://example.com/direct-supporting-source",
+    "imageUrl": null,
+    "audioUrl": null
+  }
+]
