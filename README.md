@@ -71,9 +71,22 @@ npm run build
 
 ## Render deployment
 
-1. Push this folder to a GitHub repository.
+### When `THROWBACK` is a subfolder in the repository
+
+Set the Render service's **Root Directory** to `THROWBACK`. The commands themselves remain:
+
+- Build command: `npm ci && npm run build`
+- Start command: `npm start`
+
+The included Blueprint also declares `rootDir: THROWBACK` for this repository layout.
+
+### When FLASHBACK has its own repository
+
+If the contents of `THROWBACK` are moved to the root of a dedicated repository, remove the `rootDir: THROWBACK` line from `render.yaml` and leave Render's Root Directory blank.
+
+1. Push the project to GitHub.
 2. In Render, choose **New → Blueprint** and select the repository.
-3. Render reads `render.yaml`, creates PostgreSQL, installs packages, applies migrations, seeds idempotently and starts Next.js.
+3. Render creates PostgreSQL, installs packages, applies migrations, seeds idempotently and starts Next.js.
 4. Add `ADMIN_EMAIL` in the web service environment if you need admin access.
 
 The health endpoint is `/api/health`.

@@ -3,6 +3,7 @@ services:
     name: flashback-naija
     runtime: node
     plan: free
+    rootDir: THROWBACK
     buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
