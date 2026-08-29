@@ -8,7 +8,7 @@
     "start": "prisma migrate deploy && prisma db seed && next start",
     "postinstall": "prisma generate",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --pool=threads --poolOptions.threads.singleThread=true",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",

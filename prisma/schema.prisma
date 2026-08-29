@@ -69,6 +69,7 @@ model User {
   username String @unique
   passwordHash String
   role Role @default(PLAYER)
+  presenter String @default("LAGOS_HYPE")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   sessions Session[]
@@ -78,6 +79,8 @@ model User {
   hostedRooms Room[] @relation("RoomHost")
   joinedRooms Room[] @relation("RoomGuest")
   stats UserStats?
+  challenges Challenge[]
+  challengeAttempts ChallengeAttempt[]
 }
 
 model Session {
@@ -115,6 +118,7 @@ model Question {
   history QuestionHistory[]
   gameQuestions GameQuestion[]
   roomQuestions RoomQuestion[]
+  challengeQuestions ChallengeQuestion[]
   @@index([status, verified, year])
   @@index([status, verified, category])
   @@index([difficulty, questionType])
@@ -127,6 +131,10 @@ model Game {
   filterYear Int?
   filterDecade Int?
   filterCategory String?
+  presenter String @default("LAGOS_HYPE")
+  participantName String?
+  challengerKey String?
+  challengeId String?
   status GameStatus @default(ACTIVE)
   accessTokenHash String
   currentIndex Int @default(0)
@@ -139,8 +147,59 @@ model Game {
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
   questions GameQuestion[]
   answers PlayerAnswer[]
+  challenge Challenge? @relation("ChallengeGames", fields: [challengeId], references: [id], onDelete: SetNull)
+  createdChallenge Challenge? @relation("OriginalGame")
+  challengeAttempt ChallengeAttempt?
   @@index([userId, startedAt])
   @@index([completedAt, score])
+}
+
+model Challenge {
+  id String @id @default(cuid())
+  code String @unique
+  creatorId String?
+  originalGameId String @unique
+  creatorName String
+  creatorScore Int
+  creatorNostalgia Int
+  bestOf Int @default(3)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  creator User? @relation(fields: [creatorId], references: [id], onDelete: SetNull)
+  originalGame Game @relation("OriginalGame", fields: [originalGameId], references: [id], onDelete: Cascade)
+  games Game[] @relation("ChallengeGames")
+  questions ChallengeQuestion[]
+  attempts ChallengeAttempt[]
+  @@index([creatorId, createdAt])
+  @@index([expiresAt])
+}
+
+model ChallengeQuestion {
+  challengeId String
+  questionId String
+  position Int
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id])
+  @@id([challengeId, questionId])
+  @@unique([challengeId, position])
+}
+
+model ChallengeAttempt {
+  id String @id @default(cuid())
+  challengeId String
+  gameId String @unique
+  userId String?
+  challengerKey String
+  playerName String
+  score Int
+  correct Int
+  nostalgia Int
+  createdAt DateTime @default(now())
+  challenge Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+  game Game @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  @@index([challengeId, score])
+  @@index([challengeId, challengerKey])
 }
 
 model GameQuestion {

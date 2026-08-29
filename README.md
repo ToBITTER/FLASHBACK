@@ -10,6 +10,10 @@ A database-backed Nigerian nostalgia trivia game built with Next.js, TypeScript,
 - 60-second Quick Flashback timer
 - Difficulty and speed scoring where knowledge remains more valuable than speed
 - Naija Nostalgia result score and category breakdown storage
+- Shareable “beat my score” challenge links that preserve the exact ten-question set
+- Three attempts per challenger, best-score mini leaderboards and creator result tracking
+- Four selectable Nigerian presenter personalities with contextual commentary
+- Evolving nostalgia identities based on cumulative category performance and games played
 - Secure accounts with salted one-way password hashes and database sessions
 - Global and weekly leaderboard data
 - Private two-player rooms with codes, invite links, live progress, scores and rematches
