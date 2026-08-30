@@ -14,6 +14,9 @@ A database-backed Nigerian nostalgia trivia game built with Next.js, TypeScript,
 - Three attempts per challenger, best-score mini leaderboards and creator result tracking
 - Four selectable Nigerian presenter personalities with contextual commentary
 - Evolving nostalgia identities based on cumulative category performance and games played
+- Personal Memory Capsules for childhoods, siblings, classmates, couples, families, diaspora and local communities
+- Guided private-memory creator with server-protected answers and story reveals
+- Capsule leaderboards, creator-only memory notes and dynamic social preview cards
 - Secure accounts with salted one-way password hashes and database sessions
 - Global and weekly leaderboard data
 - Private two-player rooms with codes, invite links, live progress, scores and rematches

@@ -81,6 +81,8 @@ model User {
   stats UserStats?
   challenges Challenge[]
   challengeAttempts ChallengeAttempt[]
+  memoryCapsules MemoryCapsule[]
+  capsuleAttempts CapsuleAttempt[]
 }
 
 model Session {
@@ -200,6 +202,62 @@ model ChallengeAttempt {
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
   @@index([challengeId, score])
   @@index([challengeId, challengerKey])
+}
+
+model MemoryCapsule {
+  id String @id @default(cuid())
+  code String @unique
+  ownerId String
+  title String
+  format String
+  place String
+  yearStart Int
+  yearEnd Int?
+  description String
+  coverEmoji String @default("📼")
+  status String @default("UNLISTED")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  questions CapsuleQuestion[]
+  attempts CapsuleAttempt[]
+  @@index([ownerId, createdAt])
+  @@index([status, createdAt])
+}
+
+model CapsuleQuestion {
+  id String @id @default(cuid())
+  capsuleId String
+  position Int
+  prompt String
+  options String[]
+  correctAnswer String
+  revealStory String
+  memoryYear Int?
+  mediaUrl String?
+  capsule MemoryCapsule @relation(fields: [capsuleId], references: [id], onDelete: Cascade)
+  @@unique([capsuleId, position])
+}
+
+model CapsuleAttempt {
+  id String @id @default(cuid())
+  capsuleId String
+  userId String?
+  playerName String
+  relationship String?
+  playerKey String
+  accessTokenHash String
+  currentIndex Int @default(0)
+  score Int @default(0)
+  correct Int @default(0)
+  status String @default("ACTIVE")
+  memoryNote String?
+  startedAt DateTime @default(now())
+  completedAt DateTime?
+  capsule MemoryCapsule @relation(fields: [capsuleId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  @@index([capsuleId, score])
+  @@index([capsuleId, playerKey])
 }
 
 model GameQuestion {
